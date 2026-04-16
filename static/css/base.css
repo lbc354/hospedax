@@ -1,0 +1,4 @@
+.linkNavbar:hover {
+    background-color: silver;
+    transition: .5s;
+}

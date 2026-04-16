@@ -1,0 +1,121 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HospedaX</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" />
+    <link rel="stylesheet" href="{% static 'css/base.css' %}" />
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-lg bg-body-secondary">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'home' %}"><span class="text-primary">H</span><span class="text-danger">X</span> <i class="bi bi-airplane"></i></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active rounded linkNavbar" aria-current="page" href="{% url 'home' %}">Home</a>
+            </li>
+            {% if user.is_authenticated %}
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle rounded linkNavbar" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Anúncios</a>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a class="dropdown-item linkNavbar" href="{% url 'login' %}">Seus Anúncios</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item linkNavbar" href="{% url 'usuario_create' %}">Anunciar Novo</a>
+                  </li>
+                </ul>
+              </li>
+              {% if user.is_staff %}
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle rounded linkNavbar" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Gerenciamento</a>
+                  <ul class="dropdown-menu">
+                    <li>
+                      <a class="dropdown-item linkNavbar" href="{% url 'usuario_list' %}">Usuários</a>
+                    </li>
+                  </ul>
+                </li>
+              {% endif %}
+            {% else %}
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle rounded linkNavbar" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Participe</a>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a class="dropdown-item linkNavbar" href="{% url 'login' %}">Entrar</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item linkNavbar" href="{% url 'usuario_create' %}">Cadastrar</a>
+                  </li>
+                </ul>
+              </li>
+            {% endif %}
+          </ul>
+          <ul class="navbar-nav mb-2 mb-lg-0">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle rounded linkNavbar" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                {% if user.is_authenticated %}{{ user }}{% endif %}
+                <i class="bi bi-nut"></i>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li>
+                  <a class="dropdown-item linkNavbar" href="#" onclick="toggleTheme(event)"><i id="theme-icon" class="bi"></i> Alterar Tema</a>
+                </li>
+                {% if user.is_authenticated %}
+                  <li>
+                    <a class="dropdown-item linkNavbar" href="{% url 'usuario_retrieve' user.pk %}"><i class="bi bi-person"></i> Perfil</a>
+                  </li>
+                  <li>
+                    <hr class="dropdown-divider" />
+                  </li>
+                  <li>
+                    <form action="{% url 'logout' %}" method="POST" style="display: inline;">
+                      {% csrf_token %}
+                      <button type="submit" class="dropdown-item text-danger linkNavbar"><i class="bi bi-box-arrow-in-left"></i> Sair</button>
+                    </form>
+                  </li>
+                {% endif %}
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="container p-3">
+      {% block content %}
+
+      {% endblock %}
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <script>
+      function updateIcon(theme) {
+        const icon = document.getElementById('theme-icon')
+        icon.className = theme === 'dark' ? 'bi bi-moon' : 'bi bi-sun'
+      }
+      
+      function toggleTheme(event) {
+        event.preventDefault()
+      
+        const html = document.documentElement
+        const current = html.getAttribute('data-bs-theme')
+        const newTheme = current === 'dark' ? 'light' : 'dark'
+      
+        html.setAttribute('data-bs-theme', newTheme)
+        localStorage.setItem('theme', newTheme)
+      
+        updateIcon(newTheme)
+      }
+      
+      document.addEventListener('DOMContentLoaded', () => {
+        const savedTheme = localStorage.getItem('theme') || 'light'
+        document.documentElement.setAttribute('data-bs-theme', savedTheme)
+        updateIcon(savedTheme)
+      })
+    </script>
+  </body>
+</html>
