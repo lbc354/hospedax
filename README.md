@@ -2,7 +2,9 @@
 
 python -m venv venv
 
-venv/Scripts/activate (Windows)
+(Windows) venv/Scripts/activate
+
+python.exe -m pip install --upgrade pip
 
 pip install -r requirements.txt
 
@@ -16,31 +18,40 @@ python manage.py runserver
 
 # ROTAS
 
+## HOME
+
+[GET] /hospedax/ -> home page
+
 ## DESTINO
 
-[GET]      hospedax/           -> list
+[GET]      /hospedax/destino/           -> list
 
+[GET]      /hospedax/destino/1/         -> retrieve
 
-[GET]      hospedax/1/         -> retrieve
+[GET,POST] /hospedax/destino/criar/     -> create
 
-[GET,POST] hospedax/novo/      -> create
+[GET,POST] /hospedax/destino/editar/1/  -> update
 
-[GET,POST] hospedax/editar/1/  -> update
-
-[POST]     hospedax/deletar/1/ -> delete
+[POST]     /hospedax/destino/deletar/1/ -> delete
 
 ## USUARIO
 
-[GET,POST] hospedax/usuario/login/     -> login
+[GET,POST] /hospedax/usuario/login/            -> login
 
-[POST]     hospedax/usuario/logout/    -> logout
+[POST]     /hospedax/usuario/logout/           -> logout
 
-[GET]      hospedax/usuario/           -> list
+[GET]      /hospedax/usuario/                  -> list
 
-[GET]      hospedax/usuario/1/         -> retrieve
+[GET]      /hospedax/usuario/inativos/         -> list
 
-[GET,POST] hospedax/usuario/novo/      -> create
+[GET]      /hospedax/usuario/perfil/<int:pk>/  -> retrieve
 
-[GET,POST] hospedax/usuario/editar/1/  -> update
+[GET]      /hospedax/usuario/perfil/           -> retrieve
 
-[POST]     hospedax/usuario/deletar/1/ -> delete
+[GET,POST] /hospedax/usuario/criar/            -> create
+
+[GET,POST] /hospedax/usuario/editar/<int:pk>/  -> update
+
+[GET,POST] /hospedax/usuario/editar/           -> update
+
+[POST]     /hospedax/usuario/deletar/<int:pk>/ -> delete

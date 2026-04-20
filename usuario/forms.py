@@ -23,7 +23,9 @@ class LoginForm(AuthenticationForm):
                 raise forms.ValidationError("E-mail e/ou senha incorretos.")
 
             if not user.is_active:
-                raise forms.ValidationError("Esta conta está desativada. Se isto for um erro, entre em contato.")
+                raise forms.ValidationError(
+                    "Esta conta está desativada. Se isto for um erro, entre em contato."
+                )
 
             self.user_cache = user
             return self.cleaned_data

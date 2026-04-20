@@ -1,18 +1,23 @@
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+from django.contrib.auth.models import AbstractUser
 from django.db import models
-from django.utils import timezone
 from django.contrib.auth.base_user import BaseUserManager
 
 
 class UsuarioManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
         if not email:
-            raise ValueError("O email é obrigatório.")
+            raise ValueError("E-mail é obrigatório.")
+
+        extra_fields.setdefault("is_staff", False)
+        extra_fields.setdefault("is_superuser", False)
 
         email = self.normalize_email(email)
         user = self.model(email=email, **extra_fields)
         user.set_password(password)
+
+        # para garantir que o usuário seja salvo no banco de dados correto caso seu projeto use múltiplos bancos
         user.save(using=self._db)
+
         return user
 
     def create_superuser(self, email, password=None, **extra_fields):
@@ -20,30 +25,32 @@ class UsuarioManager(BaseUserManager):
         extra_fields.setdefault("is_superuser", True)
 
         if extra_fields.get("is_staff") is not True:
-            raise ValueError("Superuser precisa ter is_staff=True")
+            raise ValueError("Superuser requer is_staff=True.")
 
         if extra_fields.get("is_superuser") is not True:
-            raise ValueError("Superuser precisa ter is_superuser=True")
+            raise ValueError("Superuser requer is_superuser=True.")
 
         return self.create_user(email, password, **extra_fields)
 
 
-class Usuario(AbstractBaseUser, PermissionsMixin):
+class Usuario(AbstractUser):
     class Meta:
         db_table = "usuario"
 
-    email = models.EmailField(unique=True)
-    nome = models.CharField(max_length=100)
-
-    is_active = models.BooleanField(default=True)
-    is_staff = models.BooleanField(default=False)
-
-    date_joined = models.DateTimeField(default=timezone.now)
+    # aplicando email ao invés de username para login
 
     objects = UsuarioManager()
 
+    username = None
+
+    email = models.EmailField(unique=True)
+
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["password"]
+    REQUIRED_FIELDS = []
+
+    # outros campos
+
+    # xyz
 
     def __str__(self):
         return self.email

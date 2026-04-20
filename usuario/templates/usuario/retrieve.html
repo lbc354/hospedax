@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
 {% block content %}
-  <a href="{% url 'usuario_update' user.pk %}">Editar dados</a>
+  <h1>{{ usuario.email }}</h1>
+  <a href="{% url 'usuario_update_id' usuario.pk %}">Editar dados</a>
 {% endblock %}

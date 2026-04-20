@@ -4,15 +4,15 @@ from .forms import DestinoForm
 
 
 # LIST
-def home(request):
+def destino_list(request):
     destinos = Destino.objects.all()
-    return render(request, "destino/home.html", {"destinos": destinos})
+    return render(request, "destino/list.html", {"destinos": destinos})
 
 
 # RETRIEVE
 def destino_retrieve(request, pk):
     destino = get_object_or_404(Destino, pk=pk)
-    return render(request, "destino/details.html", {"destino": destino})
+    return render(request, "destino/retrieve.html", {"destino": destino})
 
 
 # CREATE
@@ -23,7 +23,7 @@ def destino_create(request):
         form.save()
         return redirect("destino_list")
 
-    return render(request, "destino/form.html", {"form": form})
+    return render(request, "destino/create.html", {"form": form})
 
 
 # UPDATE
@@ -35,7 +35,7 @@ def destino_update(request, pk):
         form.save()
         return redirect("destino_list")
 
-    return render(request, "destino/form.html", {"form": form})
+    return render(request, "destino/update.html", {"form": form})
 
 
 # DELETE

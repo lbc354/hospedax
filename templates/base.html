@@ -25,10 +25,10 @@
                 <a class="nav-link dropdown-toggle rounded linkNavbar" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Anúncios</a>
                 <ul class="dropdown-menu">
                   <li>
-                    <a class="dropdown-item linkNavbar" href="{% url 'login' %}">Seus Anúncios</a>
+                    <a class="dropdown-item linkNavbar" href="#">Seus Anúncios</a>
                   </li>
                   <li>
-                    <a class="dropdown-item linkNavbar" href="{% url 'usuario_create' %}">Anunciar Novo</a>
+                    <a class="dropdown-item linkNavbar" href="#">Anunciar Novo</a>
                   </li>
                 </ul>
               </li>
@@ -68,7 +68,7 @@
                 </li>
                 {% if user.is_authenticated %}
                   <li>
-                    <a class="dropdown-item linkNavbar" href="{% url 'usuario_retrieve' user.pk %}"><i class="bi bi-person"></i> Perfil</a>
+                    <a class="dropdown-item linkNavbar" href="{% url 'usuario_retrieve' %}"><i class="bi bi-person"></i> Perfil</a>
                   </li>
                   <li>
                     <hr class="dropdown-divider" />
