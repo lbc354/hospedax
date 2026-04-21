@@ -1,9 +1,11 @@
+# https://docs.djangoproject.com/en/6.0/
+
 from pathlib import Path
 import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = "django-insecure-pa&_0_9_!gy_qk2d#mzgp30laq+v#j!=#=_=xbfvo6=0vbslia"
+SECRET_KEY = os.getenv("SECRET_KEY", None)
 
 DEBUG = True
 
@@ -79,12 +81,13 @@ USE_I18N = True
 
 USE_TZ = True
 
-# STATIC_URL = "hospedax/static/"
-STATIC_URL = "/static/"
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
-MEDIA_URL = "/media/"
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+# https://docs.djangoproject.com/en/6.0/howto/static-files/
+# https://docs.djangoproject.com/en/6.0/howto/static-files/deployment/
+STATIC_URL = "/hospedax/static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
+STATICFILES_DIRS = [BASE_DIR / "static"]
+MEDIA_URL = "/hospedax/media/"
+MEDIA_ROOT = BASE_DIR / "media"
 
 AUTH_USER_MODEL = "usuario.Usuario"
 

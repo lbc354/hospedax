@@ -50,13 +50,13 @@ def usuario_inactive_list(request):
 
 # RETRIEVE
 @login_required
-def usuario_retrieve(request, pk=None):
-    if pk and not request.user.is_staff:
+def usuario_retrieve(request, id=None):
+    if id and not request.user.is_staff:
         return redirect("usuario_retrieve")
 
-    user_pk = pk or request.user.pk
+    user_id = id or request.user.id
 
-    usuario = get_object_or_404(Usuario, pk=user_pk)
+    usuario = get_object_or_404(Usuario, id=user_id)
     return render(request, "usuario/retrieve.html", {"usuario": usuario})
 
 
@@ -74,13 +74,13 @@ def usuario_create(request):
 
 # UPDATE
 @login_required
-def usuario_update(request, pk=None):
-    if pk and not request.user.is_staff:
+def usuario_update(request, id=None):
+    if id and not request.user.is_staff:
         return redirect("usuario_update")
 
-    user_pk = pk or request.user.pk
+    user_id = id or request.user.id
 
-    usuario = get_object_or_404(Usuario, pk=user_pk)
+    usuario = get_object_or_404(Usuario, id=user_id)
     form = UsuarioUpdateForm(request.POST or None, instance=usuario)
 
     if form.is_valid():
@@ -94,15 +94,15 @@ def usuario_update(request, pk=None):
 
 # DELETE
 @login_required
-def usuario_delete(request, pk):
+def usuario_delete(request, id):
     if not request.user.is_staff:
         print("retornar erro exigindo permissão")
         return redirect("home")
 
-    usuario = get_object_or_404(Usuario, pk=pk)
+    usuario = get_object_or_404(Usuario, id=id)
 
     if request.method == "POST":
-        if request.user.pk == pk:
+        if request.user.id == id:
             logout(request)
             usuario.delete()
             return redirect("home")

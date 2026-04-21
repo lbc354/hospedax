@@ -44,14 +44,14 @@ python manage.py runserver
 
 [GET]      /hospedax/usuario/inativos/         -> list
 
-[GET]      /hospedax/usuario/perfil/<int:pk>/  -> retrieve
+[GET]      /hospedax/usuario/perfil/<int:id>/  -> retrieve
 
 [GET]      /hospedax/usuario/perfil/           -> retrieve
 
 [GET,POST] /hospedax/usuario/criar/            -> create
 
-[GET,POST] /hospedax/usuario/editar/<int:pk>/  -> update
+[GET,POST] /hospedax/usuario/editar/<int:id>/  -> update
 
 [GET,POST] /hospedax/usuario/editar/           -> update
 
-[POST]     /hospedax/usuario/deletar/<int:pk>/ -> delete
+[POST]     /hospedax/usuario/deletar/<int:id>/ -> delete

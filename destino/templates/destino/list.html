@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+  <a href="{% url 'destino_create' %}">Novo</a>
+  <ul>
+    {% for d in destinos %}
+      <li>
+        {{ d.titulo }} - {{ d.preco }}
+        <a href="{% url 'destino_update' d.id %}">Editar</a>
+        <a href="{% url 'destino_delete' d.id %}">Deletar</a>
+      </li>
+    {% empty %}
+      <p class="text-center text-secondary">Nenhuma hospegadem encontrada.</p>
+    {% endfor %}
+  </ul>
+{% endblock %}
