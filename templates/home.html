@@ -9,7 +9,9 @@
     <h2><i class="bi bi-arrow-right"></i> Recomendados</h2>
     <ul>
       {% for d in destinos %}
-        <li>{{ d.titulo }} | {{ d.preco }} | <a href="{% url "destino_retrieve" d.id %}">Ver</a></li>
+        <li>
+          {{ d.titulo }} | {{ d.preco }} | <a href="{% url 'destino_retrieve' d.id %}">Ver</a>
+        </li>
       {% empty %}
         <p class="text-center text-secondary">Nenhuma hospegadem encontrada.</p>
       {% endfor %}

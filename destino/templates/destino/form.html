@@ -2,9 +2,33 @@
 {% block content %}
   <h1>Form</h1>
 
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Salvar</button>
-  </form>
+  <div class="card p-3">
+    {% comment %}ImageField exige enctype="multipart/form-data"{% endcomment %}
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {% comment %} {{ form.as_p }} {% endcomment %}
+      {% for field in form %}
+        <div class="mb-3">
+          <div class="d-flex flex-wrap">
+            <div class="me-auto">{{ field.label_tag }}</div>
+            {% if field.help_text %}
+              <span class="text-info-emphasis">{{ field.help_text }}</span>
+            {% endif %}
+          </div>
+          {{ field }}
+          {% if field.errors %}
+            {% for error in field.errors %}
+              <ul>
+                <li>{{ error }}</li>
+              </ul>
+            {% endfor %}
+          {% endif %}
+        </div>
+      {% endfor %}
+
+      <div>
+        <button type="submit" class="btn btn-primary mt-3">Salvar</button>
+      </div>
+    </form>
+  </div>
 {% endblock %}

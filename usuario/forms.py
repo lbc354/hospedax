@@ -42,7 +42,7 @@ class UsuarioCreateForm(UserCreationForm):
         email = self.cleaned_data.get("email")
 
         if Usuario.objects.filter(email=email).exists():
-            raise forms.ValidationError("Email já cadastrado.")
+            raise forms.ValidationError("E-mail já cadastrado.")
 
         return email
 
@@ -57,6 +57,6 @@ class UsuarioUpdateForm(forms.ModelForm):
 
         qs = Usuario.objects.filter(email=email).exclude(id=self.instance.id)
         if qs.exists():
-            raise forms.ValidationError("Email já está em uso.")
+            raise forms.ValidationError("E-mail já está em uso.")
 
         return email

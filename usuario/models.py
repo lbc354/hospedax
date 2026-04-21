@@ -15,7 +15,6 @@ class UsuarioManager(BaseUserManager):
         user = self.model(email=email, **extra_fields)
         user.set_password(password)
 
-        # para garantir que o usuário seja salvo no banco de dados correto caso seu projeto use múltiplos bancos
         user.save(using=self._db)
 
         return user
@@ -37,13 +36,13 @@ class Usuario(AbstractUser):
     class Meta:
         db_table = "usuario"
 
-    # aplicando email ao invés de username para login
+    # usando email ao invés de username para login
 
     objects = UsuarioManager()
 
     username = None
 
-    email = models.EmailField(unique=True)
+    email = models.EmailField(unique=True, max_length=50)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []

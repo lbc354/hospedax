@@ -23,10 +23,13 @@ def destino_retrieve(request, id):
 
 # CREATE
 def destino_create(request):
-    form = DestinoForm(request.POST or None)
+    form = DestinoForm(request.POST or None, request.FILES or None)
 
     if form.is_valid():
-        form.save()
+        destino = form.save(commit=False)
+        destino.created_by = request.user
+        destino.updated_by = request.user
+        destino.save()
         return redirect("destino_list")
 
     return render(request, "destino/form.html", {"form": form})
@@ -35,10 +38,12 @@ def destino_create(request):
 # UPDATE
 def destino_update(request, id):
     destino = get_object_or_404(Destino, id=id)
-    form = DestinoForm(request.POST or None, instance=destino)
+    form = DestinoForm(request.POST or None, request.FILES or None, instance=destino)
 
     if form.is_valid():
-        form.save()
+        destino = form.save(commit=False)
+        destino.updated_by = request.user
+        destino.save()
         return redirect("destino_list")
 
     return render(request, "destino/form.html", {"form": form})
