@@ -13,11 +13,6 @@ def delete_imagem(instance):
 
 @receiver(pre_delete, sender=Destino)
 def destino_imagem_delete(sender, instance, *args, **kwargs):
-    # old_instance = Destino.objects.filter(id=instance.id).first()
-    # if old_instance:
-    #     delete_imagem(old_instance)
-
-    # No pre_delete, a instância já é a do banco — só deletar diretamente
     delete_imagem(instance)
 
 

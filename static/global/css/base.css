@@ -2,3 +2,44 @@
     background-color: silver;
     transition: .5s;
 }
+
+.img-cover {
+    object-fit: cover;
+    height: 100%;
+}
+
+/* Setas (prev / next) */
+/* garante branco SEMPRE */
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    filter: none !important;
+    background-color: transparent;
+}
+
+/* força o SVG branco */
+[data-bs-theme="dark"] .carousel-control-prev-icon,
+[data-bs-theme="dark"] .carousel-control-next-icon {
+    filter: invert(1) !important;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    opacity: 1;
+}
+
+/* Indicadores (os “tracinhos”) */
+.carousel-indicators [data-bs-target] {
+    background-color: black;
+    opacity: 0.5;
+}
+
+.carousel-indicators .active {
+    background-color: black;
+    opacity: 1;
+}
+
+/* Texto (caption) */
+.carousel-caption h5,
+.carousel-caption p {
+    color: black;
+}

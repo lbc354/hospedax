@@ -1,15 +1,40 @@
 {% extends 'base.html' %}
 {% block content %}
-  <a href="{% url 'destino_create' %}">Novo</a>
-  <ul>
+  <div class="my-3">
+    {% include 'partials/search.html' %}
+  </div>
+
+  {% if show_actions %}
+    <div class="w-100 text-end">
+      <a href="{% url 'destino_create' %}">Novo</a>
+    </div>
+  {% endif %}
+  <div class="row mt-3">
     {% for d in destinos %}
-      <li>
-        {{ d.titulo }} - {{ d.preco }}
-        <a href="{% url 'destino_update' d.id %}">Editar</a>
-        <a href="{% url 'destino_delete' d.id %}">Deletar</a>
-      </li>
+      <div class="col-12 col-lg-6">
+        <div class="card mb-3">
+          <div class="row g-0">
+            <div class="col-md-4">
+              <a href="{% url 'destino_retrieve' d.id %}" class="d-block h-100"><img src="/hospedax/media/{{ d.imagem }}" class="img-fluid rounded-start h-100 w-100 img-cover" alt="{{ d.titulo }}" /></a>
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title text-truncate">{{ d.titulo }}</h5>
+                <p class="card-text text-truncate">{{ d.localizacao }} | {{ d.preco }}</p>
+                <p class="card-text">
+                  <small class="text-body-secondary">
+                    {% if show_actions %}
+                      <a href="{% url 'destino_update' d.id %}">Editar</a>
+                    {% endif %}
+                  </small>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     {% empty %}
       <p class="text-center text-secondary">Nenhuma hospegadem encontrada.</p>
     {% endfor %}
-  </ul>
+  </div>
 {% endblock %}

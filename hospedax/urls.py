@@ -1,14 +1,17 @@
 from django.contrib import admin
 from django.conf import settings
-from django.urls import path, include
+from django.urls import path, include, reverse
 
 from django.shortcuts import render
 from destino.models import Destino
 
 
 def home(request):
-    destinos = Destino.objects.all()
-    return render(request, "home.html", {"destinos": destinos})
+    search_action = reverse("destino_list")
+    destinos = Destino.objects.all().order_by("-created_at")[:3]
+    return render(
+        request, "home.html", {"destinos": destinos, "search_action": search_action}
+    )
 
 
 urlpatterns = [

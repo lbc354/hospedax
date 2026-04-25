@@ -1,6 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
-  <div class="mt-5">
-    <h2><i class="bi bi-arrow-right"></i> {{ destino.titulo }}</h2>
+  <div class="row g-3 mt-3">
+    {% if show_actions %}
+      <a href="{% url 'destino_update' destino.id %}" class="text-end">Editar</a>
+    {% endif %}
+    <h2>{{ destino.titulo }}</h2>
+    <img src="/hospedax/media/{{ destino.imagem }}" alt="{{ destino.titulo }}" />
+    <p>{{ destino.preco }} | {{ destino.localizacao }}</p>
+    <p>{{ destino.descricao }}</p>
   </div>
 {% endblock %}
