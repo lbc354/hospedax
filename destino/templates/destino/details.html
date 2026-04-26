@@ -6,7 +6,10 @@
     {% endif %}
     <h2>{{ destino.titulo }}</h2>
     <img src="/hospedax/media/{{ destino.imagem }}" alt="{{ destino.titulo }}" />
-    <p>{{ destino.preco }} | {{ destino.localizacao }}</p>
+    <div class="d-flex justify-content-between flex-wrap">
+      <p>{{ destino.preco }} | {{ destino.localizacao }}</p>
+      <a href="#">Comprar</a>
+    </div>
     <p>{{ destino.descricao }}</p>
   </div>
 {% endblock %}

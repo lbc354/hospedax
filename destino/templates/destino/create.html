@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+  <div class="row justify-content-center">
+    <div class="col-12 col-lg-9">
+      {% comment %}ImageField exige enctype="multipart/form-data"{% endcomment %}
+      <form method="post" class="card p-3" id="submitForm" enctype="multipart/form-data">
+        <h1 class="text-center mb-3">Criar</h1>
+        {% csrf_token %}
+
+        <div class="mb-3">
+          <label for="id_titulo" class="form-label">Título do destino</label>
+          <input type="text" name="titulo" maxlength="100" class="form-control" id="id_titulo" value="{{ request.POST.titulo|default:'' }}" required />
+        </div>
+
+        <div class="mb-3">
+          <label for="id_descricao" class="form-label">Descrição</label>
+          <textarea name="descricao" rows="2" class="form-control" required id="id_descricao">{{ request.POST.descricao|default:'' }}</textarea>
+        </div>
+
+        <div class="mb-3">
+          <label for="id_localizacao" class="form-label">Localização</label>
+          <input type="text" name="localizacao" maxlength="100" class="form-control" value="{{ request.POST.localizacao|default:'' }}" required id="id_localizacao" />
+        </div>
+
+        <div class="mb-3">
+          <label for="id_preco" class="form-label">Preço (R$)</label>
+          <input type="number" name="preco" step="0.01" class="form-control" value="{{ request.POST.preco|default:'' }}" required id="id_preco" />
+        </div>
+
+        <div class="mb-3">
+          <div class="d-flex flex-wrap">
+            <div class="me-auto">
+              <label for="id_imagem" class="form-label">Imagem</label>
+            </div>
+            <span class="form-text" id="id_imagem_helptext">Apenas PNG, JPG ou JPEG</span>
+          </div>
+          <input type="file" name="imagem" accept="image/*" class="form-control" required aria-describedby="id_imagem_helptext" id="id_imagem" />
+        </div>
+
+        {% if form.errors %}
+          <div class="alert alert-danger">
+            <ul>
+              {{ form.non_field_errors }}
+              {% for field in form %}
+                {% for error in field.errors %}
+                  <li>{{ error }}</li>
+                {% endfor %}
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+
+        <button type="submit" class="btn btn-primary my-3" disabled id="submitBtn">Criar</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="{% static 'global/js/disabledSubmitBtn.js' %}"></script>
+{% endblock %}

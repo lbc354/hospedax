@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
+from django.db import transaction
 from .models import Usuario
 from .forms import LoginForm, UsuarioCreateForm, UsuarioUpdateForm
 
@@ -28,24 +29,28 @@ def logout_view(request):
 
 
 # LIST
+def get_users(request, *args, **kwargs):
+    usuarios = Usuario.objects.all()
+
+    if kwargs.get("is_active") is True:
+        usuarios = usuarios.filter(is_active=True)
+
+    if kwargs.get("is_active") is False:
+        usuarios = usuarios.filter(is_active=False)
+
+    return usuarios
+
+
 @login_required
-def usuario_list(request):
+def usuario_list(request, is_active=True):
     if not request.user.is_staff:
         print("retornar erro exigindo permissão")
         return redirect("home")
 
-    usuarios = Usuario.objects.filter(is_active=True)
-    return render(request, "usuario/list.html", {"usuarios": usuarios})
-
-
-@login_required
-def usuario_inactive_list(request):
-    if not request.user.is_staff:
-        print("retornar erro exigindo permissão")
-        return redirect("home")
-
-    usuarios = Usuario.objects.filter(is_active=False)
-    return render(request, "usuario/inactive_list.html", {"usuarios": usuarios})
+    usuarios = get_users(request, is_active=is_active)
+    return render(
+        request, "usuario/list.html", {"usuarios": usuarios, "is_active": is_active}
+    )
 
 
 # RETRIEVE
@@ -65,8 +70,9 @@ def usuario_create(request):
     form = UsuarioCreateForm(request.POST or None)
 
     if form.is_valid():
-        user = form.save()
-        login(request, user)
+        with transaction.atomic():
+            user = form.save()
+            login(request, user)
         return redirect("home")
 
     return render(request, "usuario/create.html", {"form": form})
@@ -79,12 +85,12 @@ def usuario_update(request, id=None):
         return redirect("usuario_update")
 
     user_id = id or request.user.id
-
     usuario = get_object_or_404(Usuario, id=user_id)
     form = UsuarioUpdateForm(request.POST or None, instance=usuario)
 
     if form.is_valid():
-        form.save()
+        with transaction.atomic():
+            form.save()
         if request.user.is_staff:
             return redirect("usuario_list")
         return redirect("usuario_retrieve")
@@ -102,12 +108,13 @@ def usuario_delete(request, id):
     usuario = get_object_or_404(Usuario, id=id)
 
     if request.method == "POST":
-        if request.user.id == id:
-            logout(request)
-            usuario.delete()
-            return redirect("home")
-        else:
-            usuario.delete()
-            return redirect("usuario_list")
+        with transaction.atomic():
+            if request.user.id == id:
+                usuario.delete()
+                logout(request)
+                return redirect("home")
+            else:
+                usuario.delete()
+                return redirect("usuario_list")
 
     return render(request, "usuario/delete.html", {"usuario": usuario})

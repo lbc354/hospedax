@@ -19,13 +19,13 @@ class LoginForm(AuthenticationForm):
             except Usuario.DoesNotExist:
                 raise forms.ValidationError("E-mail não encontrado.")
 
-            if not user.check_password(password):
-                raise forms.ValidationError("E-mail e/ou senha incorretos.")
-
             if not user.is_active:
                 raise forms.ValidationError(
                     "Esta conta está desativada. Se isto for um erro, entre em contato."
                 )
+
+            if not user.check_password(password):
+                raise forms.ValidationError("E-mail e/ou senha incorretos.")
 
             self.user_cache = user
             return self.cleaned_data

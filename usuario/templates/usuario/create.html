@@ -1,10 +1,69 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
-  <h1>Cadastro</h1>
+  <div class="row justify-content-center">
+    <div class="col-12 col-lg-9">
+      <form method="post" class="card p-3" id="submitForm">
+        <h1 class="text-center mb-3">Cadastrar</h1>
+        {% csrf_token %}
 
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Cadastrar</button>
-  </form>
+        <div class="mb-3">
+          <label for="id_email" class="form-label">E-mail</label>
+          <input type="email" class="form-control" id="id_email" name="email" maxlength="50" value="{{ request.POST.email|default:'' }}" required />
+        </div>
+
+        <div class="mb-3">
+          <label for="id_password1" class="form-label">Senha</label>
+          <input type="password" class="form-control" id="id_password1" name="password1" autocomplete="new-password" aria-describedby="id_password1_helptext" required />
+          <span class="helptext" id="id_password1_helptext"></span>
+          <p class="d-inline-flex gap-1">
+            <a class="form-text text-decoration-none" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"><i class="bi bi-info-circle"></i> Sobre a senha <i class="bi bi-chevron-down"></i></a>
+          </p>
+          <div class="collapse" id="collapseExample">
+            <div class="card card-body">
+              <ul>
+                <li class="form-text">Sua senha não pode ser muito parecida com o resto das suas informações pessoais.</li>
+                <li class="form-text">Sua senha precisa conter pelo menos 8 caracteres.</li>
+                <li class="form-text">Sua senha não pode ser uma senha comumente utilizada.</li>
+                <li class="form-text">Sua senha não pode ser inteiramente numérica.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="id_password2" class="form-label">Confirme sua senha</label>
+          <input type="password" class="form-control" id="id_password2" name="password2" autocomplete="new-password" aria-describedby="id_password2_helptext" required />
+          <span class="helptext form-text" id="id_password2_helptext">Informe a mesma senha informada anteriormente.</span>
+        </div>
+
+        {% comment %}LÓGICA PARA USUÁRIO CRIANDO OUTRO USUÁRIO{% endcomment %}
+        {% comment %} <div class="mb-3 form-check">
+          <input type="checkbox" class="form-check-input" id="check" required />
+          <label class="form-check-label" for="check">A senha padrão 'NovaSenha' será atribuída ao usuário.</label>
+        </div> {% endcomment %}
+
+        {% if form.errors %}
+          <div class="alert alert-danger">
+            <ul>
+              {{ form.non_field_errors }}
+              {% for field in form %}
+                {% for error in field.errors %}
+                  <li>{{ error }}</li>
+                {% endfor %}
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+
+        <button type="submit" class="btn btn-primary my-3" disabled id="submitBtn">Cadastrar</button>
+
+        <div class="form-text">
+          Já possui conta? <a href="{% url 'login' %}">Entrar</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="{% static 'global/js/disabledSubmitBtn.js' %}"></script>
 {% endblock %}

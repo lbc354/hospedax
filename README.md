@@ -24,15 +24,17 @@ python manage.py runserver
 
 ## DESTINO
 
-[GET]      /hospedax/destino/           -> list
+[GET]      /hospedax/destino/              -> list
 
-[GET]      /hospedax/destino/1/         -> retrieve
+[GET]      /hospedax/destino/meus-anuncios -> list
 
-[GET,POST] /hospedax/destino/criar/     -> create
+[GET]      /hospedax/destino/1/            -> retrieve
 
-[GET,POST] /hospedax/destino/editar/1/  -> update
+[GET,POST] /hospedax/destino/criar/        -> create
 
-[POST]     /hospedax/destino/deletar/1/ -> delete
+[GET,POST] /hospedax/destino/editar/1/     -> update
+
+[POST]     /hospedax/destino/deletar/1/    -> delete
 
 ## USUARIO
 

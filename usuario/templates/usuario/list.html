@@ -2,16 +2,33 @@
 {% block content %}
   <h1>Usuários</h1>
 
-  <a href="{% url 'usuario_create' %}">Novo</a>
-  <a href="{% url 'usuario_inactive_list' %}">Inativos</a>
+  <div class="w-100 text-end">
+    <a href="{% url 'usuario_create' %}">Novo</a> |{% if is_active %}
+      <a href="{% url 'usuario_inactive_list' %}">Inativos</a>
+    {% else %}
+      <a href="{% url 'usuario_list' %}">Ativos</a>
+    {% endif %}
+  </div>
 
-  <ul>
+  <div class="row mt-3">
     {% for u in usuarios %}
-      <li>
-        {{ u.email }}
-        <a href="{% url 'usuario_update_id' u.id %}">Editar</a>
-        <a href="{% url 'usuario_delete' u.id %}">Deletar</a>
-      </li>
+      <div class="col-12 col-lg-6">
+        <div class="card mb-3">
+          <div class="row g-0">
+            <div class="col-md-12">
+              <div class="card-body">
+                <h5 class="card-title text-truncate"><i class="bi bi-person-circle"></i> {{ u.email }}</h5>
+                <p class="card-text text-truncate">Ativo: {{ u.is_active|yesno:'Sim,Não' }} | Membro: {{ u.is_staff|yesno:'Sim,Não' }}</p>
+                <p class="card-text">
+                  <small class="text-body-secondary"><a href="{% url 'usuario_retrieve_id' u.id %}">Ver</a> | <a href="{% url 'usuario_update_id' u.id %}">Editar</a> | <a href="{% url 'usuario_delete' u.id %}">Deletar</a></small>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <p class="text-center text-secondary">Nenhum usuário encontrado.</p>
     {% endfor %}
-  </ul>
+  </div>
 {% endblock %}
