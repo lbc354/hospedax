@@ -4,11 +4,13 @@
     {% include 'partials/search.html' %}
   </div>
 
-  {% if show_actions %}
-    <div class="w-100 text-end">
+  <div class="d-flex align-items-center justify-content-between">
+    <h1>Meus Anúncios</h1>
+    {% if show_actions %}
       <a href="{% url 'destino_create' %}">Novo</a>
-    </div>
-  {% endif %}
+    {% endif %}
+  </div>
+
   <div class="row mt-3">
     {% for d in destinos %}
       <div class="col-12 col-lg-6">

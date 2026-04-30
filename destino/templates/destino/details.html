@@ -4,7 +4,7 @@
     {% if show_actions %}
       <a href="{% url 'destino_update' destino.id %}" class="text-end">Editar</a>
     {% endif %}
-    <h2>{{ destino.titulo }}</h2>
+    <h1>{{ destino.titulo }}</h1>
     <img src="/hospedax/media/{{ destino.imagem }}" alt="{{ destino.titulo }}" />
     <div class="d-flex justify-content-between flex-wrap">
       <p>{{ destino.preco }} | {{ destino.localizacao }}</p>

@@ -1,5 +1,9 @@
 .linkNavbar:hover {
     background-color: silver;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    margin-left: -1rem;
+    margin-right: -1rem;
     transition: .5s;
 }
 
@@ -29,12 +33,12 @@
 
 /* Indicadores (os “tracinhos”) */
 .carousel-indicators [data-bs-target] {
-    background-color: black;
+    background-color: silver;
     opacity: 0.5;
 }
 
 .carousel-indicators .active {
-    background-color: black;
+    background-color: silver;
     opacity: 1;
 }
 
@@ -42,4 +46,12 @@
 .carousel-caption h5,
 .carousel-caption p {
     color: black;
+}
+
+.carousel-item {
+    transition: transform .3s ease-in-out;
+}
+
+.carousel-fade .carousel-item {
+    transition: opacity .3s ease-in-out;
 }

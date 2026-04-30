@@ -15,7 +15,7 @@
 
         <div class="mb-3">
           <label for="id_descricao" class="form-label">Descrição</label>
-          <textarea name="descricao" rows="2" class="form-control" required id="id_descricao">{{ request.POST.descricao|default:form.instance.descricao }}</textarea>
+          <textarea name="descricao" rows="5" class="form-control" required id="id_descricao">{{ request.POST.descricao|default:form.instance.descricao }}</textarea>
         </div>
 
         <div class="mb-3">
@@ -25,18 +25,17 @@
 
         <div class="mb-3">
           <label for="id_preco" class="form-label">Preço (R$)</label>
-          {% comment %} O problema é que form.instance.preco usa vírgula como separador decimal (formatação brasileira do Django), e o input type="number" rejeita vírgula — aceita apenas ponto. Troque para ponto na origem, usando o filtro stringformat do Django. {% endcomment %}
+          {% comment %}O problema é que form.instance.preco usa vírgula como separador decimal (formatação brasileira do Django), e o input type="number" rejeita vírgula — aceita apenas ponto. Troque para ponto na origem, usando o filtro stringformat do Django.{% endcomment %}
           <input type="number" name="preco" step="0.01" class="form-control" value="{{ request.POST.preco|default:form.preco.value|stringformat:'g' }}" required id="id_preco" />
         </div>
 
         <div class="mb-3">
-          <div class="d-flex flex-wrap">
-            <div class="me-auto">
-              <label for="id_imagem">Imagem:</label>
-            </div>
-            <span class="form-text" id="id_imagem_helptext">Apenas PNG, JPG ou JPEG</span>
-          </div>Atualmente: <a href="/hospedax/media/{{ form.instance.imagem }}">{{ form.instance.imagem }}</a><br />
-          Modificar:<input type="file" name="imagem" accept="image/*" class="form-control" aria-describedby="id_imagem_helptext" id="id_imagem" />
+          {% comment %} <label for="id_imagem">Imagem:</label> {% endcomment %}
+          <span>Atualmente: <a href="/hospedax/media/{{ form.instance.imagem }}">{{ form.instance.imagem }}</a></span>
+          <br />
+          <span>Modificar:</span>
+          <input type="file" name="imagem" accept="image/*" class="form-control" aria-describedby="id_imagem_helptext" id="id_imagem" />
+          <span class="form-text" id="id_imagem_helptext">Apenas PNG, JPG ou JPEG</span>
         </div>
 
         {% if form.errors %}

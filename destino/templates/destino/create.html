@@ -15,7 +15,7 @@
 
         <div class="mb-3">
           <label for="id_descricao" class="form-label">Descrição</label>
-          <textarea name="descricao" rows="2" class="form-control" required id="id_descricao">{{ request.POST.descricao|default:'' }}</textarea>
+          <textarea name="descricao" rows="5" class="form-control" required id="id_descricao">{{ request.POST.descricao|default:'' }}</textarea>
         </div>
 
         <div class="mb-3">
@@ -29,13 +29,9 @@
         </div>
 
         <div class="mb-3">
-          <div class="d-flex flex-wrap">
-            <div class="me-auto">
-              <label for="id_imagem" class="form-label">Imagem</label>
-            </div>
-            <span class="form-text" id="id_imagem_helptext">Apenas PNG, JPG ou JPEG</span>
-          </div>
+          <label for="id_imagem" class="form-label">Imagem</label>
           <input type="file" name="imagem" accept="image/*" class="form-control" required aria-describedby="id_imagem_helptext" id="id_imagem" />
+          <span class="form-text" id="id_imagem_helptext">Apenas PNG, JPG ou JPEG</span>
         </div>
 
         {% if form.errors %}

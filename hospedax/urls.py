@@ -8,7 +8,7 @@ from destino.models import Destino
 
 def home(request):
     search_action = reverse("destino_list")
-    destinos = Destino.objects.all().order_by("-created_at")[:3]
+    destinos = Destino.objects.all().order_by("-created_at")[:5]
     return render(
         request, "home.html", {"destinos": destinos, "search_action": search_action}
     )

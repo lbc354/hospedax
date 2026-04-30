@@ -1,0 +1,57 @@
+<nav class="navbar bg-body-secondary border" style="position: fixed; bottom: 0; left: 0; right: 0; z-index: 2;">
+  <div class="container-fluid d-flex align-items-center">
+    <span class="navbar-brand justify-content-end col-2"><span class="text-primary">H</span><span class="text-danger">X</span> <i class="bi bi-airplane"></i></span>
+    <ul class="navbar-nav d-none d-md-flex flex-row justify-content-center mb-0 justify-content-end col-8" style="margin-left: -1rem;">
+      <li class="nav-item mx-3">
+        <a class="nav-link active rounded linkNavbar d-flex flex-column align-items-center justify-content-center" aria-current="page" href="{% url 'home' %}"><i class="bi bi-house"></i><small>Home</small></a>
+      </li>
+      {% if user.is_authenticated %}
+        <li class="nav-item mx-3">
+          <a class="nav-link active rounded linkNavbar d-flex flex-column align-items-center justify-content-center" aria-current="page" href="{% url 'destino_list_meus_anuncios' %}"><i class="bi bi-signpost"></i><small>Meus Anúncios</small></a>
+        </li>
+        {% if user.is_staff %}
+          <li class="nav-item mx-3">
+            <a class="nav-link active rounded linkNavbar d-flex flex-column align-items-center justify-content-center" aria-current="page" href="{% url 'usuario_list' %}"><i class="bi bi-signpost"></i><small>Gerenciamento</small></a>
+          </li>
+        {% endif %}
+      {% endif %}
+    </ul>
+    <div class="dropup d-none d-md-flex justify-content-end col-2">
+      <a href="#" class="nav-link dropdown-toggle rounded linkNavbar" data-bs-toggle="dropdown" aria-expanded="false">
+        {% if user.is_authenticated %}
+          {{ user }}
+        {% else %}
+          <i class="bi bi-gear"></i>
+        {% endif %}
+      </a>
+      <ul class="dropdown-menu dropdown-menu-end">
+        <li>
+          <a class="dropdown-item linkNavbar" href="#" onclick="toggleTheme(event)"><i id="theme-icon" class="bi"></i> Alterar Tema</a>
+        </li>
+        {% if user.is_authenticated %}
+          <li>
+            <a class="dropdown-item linkNavbar" href="{% url 'usuario_retrieve' %}"><i class="bi bi-person"></i> Perfil</a>
+          </li>
+          <li>
+            <hr class="dropdown-divider" />
+          </li>
+          <li>
+            <form action="{% url 'logout' %}" method="POST" style="display: inline;">
+              {% csrf_token %}
+              <button type="submit" class="dropdown-item text-danger linkNavbar"><i class="bi bi-box-arrow-in-left"></i> Sair</button>
+            </form>
+          </li>
+        {% else %}
+          <li>
+            <a class="dropdown-item linkNavbar" href="{% url 'login' %}"><i class="bi bi-person"></i> Entrar</a>
+          </li>
+          <li>
+            <a class="dropdown-item linkNavbar" href="{% url 'usuario_create' %}"><i class="bi bi-person"></i> Cadastrar</a>
+          </li>
+        {% endif %}
+      </ul>
+    </div>
+    <button class="navbar-toggler d-md-none ms-auto" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+  </div>
+</nav>
+{% include 'partials/offcanvas.html' %}
